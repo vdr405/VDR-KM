@@ -1,0 +1,13 @@
+/*** Check for duplicate and get first/last ***/
+%macro chkdup(in= ,by= ,var= , out= ,pick=  );
+proc sort data= &in tagsort;
+	by &by;
+run;
+
+data dups_&in &out;
+ set &in;
+ if ^(first.&var and last.&var) then output dups_&in; 
+ 	if &pick..&var then output &out; 
+  by &by;
+run;
+%mend;
