@@ -1,0 +1,12 @@
+/***** To convert SDTM(ISO) dates to numeric date9. dates ****/
+/**** INDT= SDTM Char date
+      OUTDT= SAS Numeric date 
+       OUTTM=SAS Numeric time(optional) ***/
+%macro ISO2DT(indt=, outdt= , outtm= );
+	format &outdt date9.;
+	if lengthn(&indt) >=10 then &outdt= input(substr(&indt,1,10),yymmdd10.);
+	%if &outtm ^= %then %do;
+		format &outtm time5.;
+    	if lengthn(&indt) >10 then &outtm=input(substr(&indt,12),time5.);
+    %end;
+%mend; 
