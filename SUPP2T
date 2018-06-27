@@ -1,0 +1,40 @@
+/*** For quick transpose to change supp-- ***/
+/*** IN= Library.SUPP Domain name (ex: SDTM.SUPPAE)
+    WHR= WHere condition (Ex: IDVAR= "EXSEQ")
+    VAR= IDVAR name(EX: EXSEQ)
+    OUT= Output dataset name
+    TYPE= 1 if VAR is numeric; 2 if VAR is character ****/
+%macro supp2t(in= ,whr= ,var= , out= , type= 1  );
+
+data t_&out;
+ set &in;
+ where &whr;
+ /*** if --SEQ is supposed to be a numeric (EX: LBSEQ in LB) ***/
+ %if &type =1 %then %do;
+  	if  IDVARVAL ne "" then &VAR= input(IDVARVAL,best.);
+  %end;
+  /*** If --SEQ is supposed to be a char (EX: SUBJID in SUPPDM, EXGRPID in SUPPEX)***/
+  %if &type =2 %then %do;
+  	if  IDVARVAL ne "" then &VAR= strip(IDVARVAL);
+  %end;
+ run;
+
+ /**** To work around duplicates in supplemental domains ***/
+proc sort data=t_&out tagsort; 
+ by USUBJID &VAR ;
+run;
+
+data t_&out;
+ set t_&out;
+ if first.&var then i+1;
+ by usubjid &VAR;
+run;
+
+proc transpose data= t_&out out=&out(drop = i _name_ _label_);
+ BY USUBJID &VAR i;
+ ID QNAM;
+ VAR QVAL;
+ IDLABEL QLABEL;
+run; 
+
+%mend;
