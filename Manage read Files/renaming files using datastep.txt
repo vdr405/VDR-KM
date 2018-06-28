@@ -1,0 +1,4 @@
+data _null_;
+    rc=rename("&PROJECTPATH./Data/Submission/analysis/adam/programs/&&prog&i", "&PROJECTPATH./Data/Submission/analysis/adam/programs/&&pset&i.._sas.txt", 'file');
+    put rc;
+run;
