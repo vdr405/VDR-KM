@@ -1,6 +1,6 @@
 *************************************************************************
-*             CLIENT:  OncoMed 
-*           PROTOCOL:  59R5-001
+*             CLIENT: 
+*           PROTOCOL:  
 *       PROGRAM NAME:  T140102.sas
 *        SAS VERSION:  SAS V9.1.3
 *            PURPOSE:  
@@ -21,7 +21,7 @@
 *                               including reference to source of change.
 *
 *************************************************************************
-*  © 2011 Pharmaceutical Product Development, Inc.
+*  Â© 2011 Pharmaceutical Product Development, Inc.
 *  All Rights Reserved.
 *************************************************************************;
 %include "MMACRO.sas";
