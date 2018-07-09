@@ -1,21 +1,17 @@
 /*****************************************************************************************
  * Study:       INCB24360_207
  * PROGRAM:     QC_T_DISP_E
- * FUNCTION:    To QC DISPOSTION TABLES
+ * FUNCTION:    To QC Summary Tables
  *
  * DATASETS:  ADSL                
  *........................................................................................
- * AUTHOR:       Dinesh Vippala      DATE: 09/28/2017
- * Validated by:  Dinesh Vippala    Date:
+ * AUTHOR:       Dinesh Vippala      DATE: 09/28/2017 
  *........................................................................................
  * REVISION HISTORY: 
  * AUTHER:                        DATE:
  * Purpose: 
  * 
 *****************************************************************************************/
-%INIT;
-
-
 
 proc datasets memtype=data lib=work kill nolist;
 run;
@@ -141,12 +137,6 @@ run;
 
 %mend;
 %spleen;
-
-
-
-
-
-
 
 DATA INDATA;
      SET &INDATA.;
