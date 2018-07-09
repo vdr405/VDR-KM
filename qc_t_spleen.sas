@@ -1,7 +1,7 @@
 /*****************************************************************************************
- * Study:       INCB24360_207
- * PROGRAM:     QC_T_DISP_E
- * FUNCTION:    To QC DISPOSTION TABLES
+ * Study:      
+ * PROGRAM:    
+ * FUNCTION:    TO QC Summary Table
  *
  * DATASETS:  ADSL                
  *........................................................................................
