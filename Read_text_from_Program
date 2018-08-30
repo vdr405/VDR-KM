@@ -1,0 +1,61 @@
+                                       
+options nofmterr symbolgen mprint mlogic ls = 230 formdlim = '*' nocenter;
+DM "Clear log";
+DM "Clear output";
+
+proc datasets memtype=data lib=work kill nolist;
+quit;
+
+
+%macro search(keyword=);
+
+/** GETTING ALL THE SAS FILES FROM PROGRAMS DIRECTORY **/
+Filename filelist pipe "dir /b /s C:\Users\kavitha.mullela\Desktop\Kavi\pgms\*.sas"; 
+                                                                                   
+Data prog2;                                        
+   Infile filelist truncover;
+   Input filename $200.;
+   Put filename=;
+Run; 
+  
+data progs;
+ set prog2;
+  if substr(filename,1,1)='.' or substr(filename,1,1)='#' then delete;
+  filename=compress(filename,"~*#%,");
+run;
+
+proc sql noprint;/*** LIST OF SAS FILES TO BE CHECKED ***/
+   select distinct filename into:txtname separated by '@'
+   from progs;
+   select count(distinct filename) into:tottxt
+   from progs;
+quit;
+%put &txtname;
+%put &tottxt;
+
+/*** FINDING THE PROGRAM THAT HAS KEYWORD ***/
+%do i = 1 %to %eval(&tottxt); 
+%let progfile = %scan(&txtname,&i,'@');  
+filename progf "&progfile"; 
+data d&i;
+  length extract $200;
+  infile progf lrecl = 200 pad;
+  input @1 linech $200.;
+  if prxmatch("m/&keyword./oi", upcase(strip(linech)))>0 then do;
+    extract = "&progfile";
+    output;
+  end;
+run;
+%end;
+data finalrt;
+  set %do i = 1 %to %eval(&tottxt);
+    d&i
+      %end;
+  ;
+run;
+proc sort data = finalrt;
+  by extract;
+run;
+
+%mend search;
+%search(keyword=db.); /* multiple keywords should separated by '|' */
